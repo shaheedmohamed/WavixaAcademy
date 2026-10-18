@@ -1,0 +1,14 @@
+[Unit]
+Description=Wavixa Academy Queue Worker
+After=network.target mysql.service redis-server.service
+
+[Service]
+User=www-data
+Group=www-data
+Restart=always
+RestartSec=5
+ExecStart=/usr/bin/php /www/wwwroot/academy.wavixa.net/backend/artisan queue:work redis --sleep=3 --tries=3 --max-time=3600 --timeout=120
+WorkingDirectory=/www/wwwroot/academy.wavixa.net/backend
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// ===== Sass variables for the design tokens =====
+$color-ink: 41 37 36;
+$color-ink-soft: 87 83 78;
+$color-ink-muted: 120 113 108;
+$color-ink-faint: 168 162 158;
+$color-surface: 247 245 242;
+$color-line: 231 229 228;
+$color-primary: 4 120 87;
+$color-primary-dark: 6 95 70;
+$color-primary-soft: 209 250 229;
+$color-primary-faint: 236 253 245;
+
+$admin-ink: 15 23 42;
+$admin-ink-soft: 51 65 85;
+$admin-ink-muted: 100 116 139;
+$admin-ink-faint: 148 163 184;
+$admin-surface: 248 250 252;
+$admin-line: 226 232 240;
+$admin-primary: 37 99 235;
+$admin-primary-dark: 29 78 216;
+$admin-primary-soft: 224 242 254;
+$admin-primary-faint: 239 246 255;
+
+$scrollbar-thumb: #D6D3D1;
+$watermark-text: rgba(255, 255, 255, 0.55);
+
+@layer base {
+  :root {
+    --c-ink: #{$color-ink};
+    --c-ink-soft: #{$color-ink-soft};
+    --c-ink-muted: #{$color-ink-muted};
+    --c-ink-faint: #{$color-ink-faint};
+    --c-surface: #{$color-surface};
+    --c-line: #{$color-line};
+    --c-primary: #{$color-primary};
+    --c-primary-dark: #{$color-primary-dark};
+    --c-primary-soft: #{$color-primary-soft};
+    --c-primary-faint: #{$color-primary-faint};
+  }
+
+  .admin-scope {
+    --c-ink: #{$admin-ink};
+    --c-ink-soft: #{$admin-ink-soft};
+    --c-ink-muted: #{$admin-ink-muted};
+    --c-ink-faint: #{$admin-ink-faint};
+    --c-surface: #{$admin-surface};
+    --c-line: #{$admin-line};
+    --c-primary: #{$admin-primary};
+    --c-primary-dark: #{$admin-primary-dark};
+    --c-primary-soft: #{$admin-primary-soft};
+    --c-primary-faint: #{$admin-primary-faint};
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-surface text-ink font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary-soft text-ink;
+  }
+
+  input, select, textarea {
+    @apply text-ink;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-4 sm:px-6;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold
+      transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50
+      disabled:opacity-50 disabled:pointer-events-none select-none;
+  }
+
+  .btn-primary { @apply btn bg-primary text-white hover:bg-primary-dark; }
+  .btn-secondary { @apply btn bg-ink text-white hover:bg-ink-soft; }
+  .btn-outline { @apply btn border border-line bg-white text-ink hover:border-ink-faint; }
+  .btn-ghost { @apply btn text-ink-soft hover:bg-stone-100; }
+  .btn-danger { @apply btn bg-danger text-white hover:bg-red-700; }
+  .btn-emerald { @apply btn bg-emerald text-white hover:bg-emerald-700; }
+
+  .card { @apply rounded-xl2 border border-line bg-white shadow-card; }
+
+  .input {
+    @apply w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm placeholder:text-ink-faint
+      focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition;
+  }
+
+  .label { @apply mb-1.5 block text-sm font-medium text-ink-soft; }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+
+  .badge-blue { @apply badge bg-teal-100 text-teal-800; }
+  .badge-green { @apply badge bg-emerald-soft text-emerald-800; }
+  .badge-amber { @apply badge bg-amber-soft text-amber-800; }
+  .badge-red { @apply badge bg-danger-soft text-red-800; }
+  .badge-gray { @apply badge bg-stone-100 text-ink-muted; }
+
+  .table-base {
+    @apply w-full text-sm;
+
+    thead th {
+      @apply border-b border-line bg-surface px-4 py-3 text-start font-semibold text-ink-muted whitespace-nowrap;
+    }
+
+    tbody td {
+      @apply border-b border-line/60 px-4 py-3 align-middle;
+    }
+
+    tbody tr:hover {
+      @apply bg-surface/70;
+    }
+  }
+
+  .link { @apply text-primary hover:text-primary-dark hover:underline underline-offset-4; }
+  .section-title { @apply text-xl sm:text-2xl font-bold text-ink; }
+  .section-sub { @apply mt-1 text-sm text-ink-muted; }
+  .skeleton { @apply animate-pulse rounded-lg bg-stone-200/80; }
+
+  .admin-scope {
+    .badge-blue { @apply bg-[#E0F2FE] text-sky-800; }
+    .badge-gray { @apply bg-slate-100; }
+    .btn-ghost:hover { @apply bg-slate-100; }
+    .skeleton { @apply bg-slate-200/80; }
+  }
+}
+
+// Custom scrollbar
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+
+  &-thumb {
+    background: $scrollbar-thumb;
+    border-radius: 8px;
+  }
+
+  &-track {
+    background: transparent;
+  }
+}
+
+// Video watermark overlay
+.watermark-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 20;
+
+  .watermark-item {
+    position: absolute;
+    color: $watermark-text;
+    font-size: 13px;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    transition: top 1.2s ease, inset-inline-start 1.2s ease;
+    white-space: nowrap;
+    line-height: 1.5;
+    text-align: center;
+  }
+}
+
+/* Hide video download/context affordances */
+video::-webkit-media-controls-enclosure { overflow: hidden; }
