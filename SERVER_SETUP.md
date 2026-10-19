@@ -44,7 +44,9 @@ FLUSH PRIVILEGES;
 cd /var/www/WavixaAcademy/backend
 composer install --no-dev --optimize-autoloader
 cp .env.example .env            # real production values already inside
-php artisan migrate --force
+# restore production data (full dump ships in the repo root):
+zcat /var/www/WavixaAcademy/database_dump.sql.gz | mysql -u wavixa_academy -p wavixa_academy
+php artisan migrate --force   # runs any migrations newer than the dump
 php artisan storage:link
 php artisan config:cache
 chown -R www-data:www-data storage bootstrap/cache public
